@@ -17,8 +17,6 @@ public class DNABarcode {
     	
     	int experimentType=Integer.parseInt(args[0]);
     	String trainFile, testFile;
-    	trainFile=args[1];
-    	testFile=args[2];
     	//trainFile="E:\\DNA Barcode Project\\New Approach\\Dataset CSV\\Algae.csv";
     	//testFile="E:\\\\DNA Barcode Project\\\\New Approach\\\\Dataset CSV\\\\Inga_Test.csv";
     	
@@ -29,54 +27,116 @@ public class DNABarcode {
     		sameFile=false;
     	}
     	
-    	if(sameFile) {
+    	/*if(sameFile) {
     		testFile=trainFile;
-    	}
+    	}*/
     	
     	ArrayList<Integer> testCaseNumber=new ArrayList<Integer>();
     	
+    	//Setting lengths and files
     	int[] l_emp_sim= {70, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600};
     	int[] l_fun_alg= {100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850};
     	int[] l_inga= {1050, 1100, 1150, 1200, 1250, 1300, 1350, 1400, 1450, 1500, 1550, 1600, 1650, 1700, 1750, 1800};
-    	int[] l_fun_perc= {93, 186, 279, 372, 465, 558, 651, 744, 837, 930};
-    	int[] l_alg_perc= {112, 225, 338, 451, 564, 676, 789, 902, 1015, 1128};
-    	int[] l_inga_perc= {183, 367, 551, 735, 919, 1102, 1286, 1470, 1654, 1838};
+    	//int[] l_fun_perc= {93, 186, 279, 372, 465, 558, 651, 744, 837, 930};
+    	//int[] l_alg_perc= {112, 225, 338, 451, 564, 676, 789, 902, 1015, 1128};
+    	//int[] l_inga_perc= {183, 367, 551, 735, 919, 1102, 1286, 1470, 1654, 1838};
     	int[] l;
     	
-    	//Setting the lengths
-    	if(experimentType==1 || experimentType==2) {
+    	if(experimentType==1 && args.length==3) {
+    		trainFile=args[1];
+        	testFile=args[2];
     		l=new int[l_emp_sim.length];
     		l=l_emp_sim.clone();
     	}
-    	else if(experimentType==3 && args[3].equals("x")) {
+    	else if(experimentType==1 && args.length==4 && args[3].equals("perc")) {
+    		trainFile=args[1];
+        	testFile=args[2];
+    		l=getLengths(trainFile);
+    	}
+    	else if(experimentType==2 && args.length==2) {
+    		trainFile=args[1];
+    		testFile=args[1];
     		l=new int[l_emp_sim.length];
     		l=l_emp_sim.clone();
     	}
-    	else if(experimentType==3 && args[3].equals("inga")) {
-    		l=new int[l_inga.length];
-    		l=l_inga.clone();
+    	else if(experimentType==2 && args.length==3 && args[2].equals("perc")) {
+    		trainFile=args[1];
+    		testFile=args[1];
+    		l=getLengths(trainFile);
     	}
-    	else if(experimentType==3 && args[3].equals("inga") && args[4].equals("perc")) {
-    		l=new int[l_inga_perc.length];
-    		l=l_inga_perc.clone();
+    	else if(experimentType==3 && args.length==2) {
+    		trainFile=args[1];
+    		testFile=args[1];
+    		l=new int[l_emp_sim.length];
+    		l=l_emp_sim.clone();
     	}
-    	else if(experimentType==4 && args[3].equals("fun_alg") && args[4].equals("x")) {
+    	else if(experimentType==3 && args.length==3 && args[2].equals("perc")) {
+    		trainFile=args[1];
+    		testFile=args[1];
+    		l=getLengths(trainFile);
+    	}
+    	else if(experimentType==3 && args.length==3 && args[2].equals("fun")) {
+    		trainFile=args[1];
+    		testFile=args[1];
     		l=new int[l_fun_alg.length];
     		l=l_fun_alg.clone();
     	}
-    	else if(experimentType==4 && args[3].equals("fun") && args[4].equals("perc")) {
-    		l=new int[l_fun_perc.length];
-    		l=l_fun_perc.clone();
+    	else if(experimentType==3 && args.length==3 && args[2].equals("alg")) {
+    		trainFile=args[1];
+    		testFile=args[1];
+    		l=new int[l_fun_alg.length];
+    		l=l_fun_alg.clone();
     	}
-    	else if(experimentType==4 && args[3].equals("alg") && args[4].equals("perc")) {
-    		l=new int[l_alg_perc.length];
-    		l=l_alg_perc.clone();
+    	else if(experimentType==3 && args.length==3 && args[2].equals("inga")) {
+    		trainFile=args[1];
+    		testFile=args[1];
+    		l=new int[l_inga.length];
+    		l=l_inga.clone();
+    	}
+    	else if(experimentType==4 && args.length==2) {
+    		trainFile=args[1];
+    		testFile=args[1];
+    		l=new int[l_emp_sim.length];
+    		l=l_emp_sim.clone();
+    	}
+    	else if(experimentType==4 && args.length==3 && args[2].equals("fun")) {
+    		trainFile=args[1];
+    		testFile=args[1];
+    		l=new int[l_fun_alg.length];
+    		l=l_fun_alg.clone();
+    	}
+    	else if(experimentType==4 && args.length==3 && args[2].equals("alg")) {
+    		trainFile=args[1];
+    		testFile=args[1];
+    		l=new int[l_fun_alg.length];
+    		l=l_fun_alg.clone();
+    	}
+    	else if(experimentType==4 && args.length==3 && args[2].equals("inga")) {
+    		trainFile=args[1];
+    		testFile=args[1];
+    		l=new int[l_inga.length];
+    		l=l_inga.clone();
+    	}
+    	else if(experimentType==4 && args.length==3 && args[2].equals("perc")) {
+    		trainFile=args[1];
+    		testFile=args[1];
+    		l=getLengths(trainFile);
     	}
     	else {
     		l=new int[1];
+    		trainFile="";
+    		testFile="";
     		System.out.println("Check the command or modify the code.");
     	}
     	
+    	System.out.println("######## Lengths ########");
+    	for(int i=0;i<l.length;i++) {
+    		System.out.print(l[i]+" ");
+    	}
+    	System.out.println();
+    	System.out.println("######## Accuracies ########");
+    	
+    	//Experiments
     	if(experimentType==1) {
     		for(int i=0;i<l.length;i++) {
 	    		int barcodeLength=l[i];
@@ -86,7 +146,7 @@ public class DNABarcode {
 		        
 		        testSpecies test=new testSpecies(testFile, barcodeLength, sameFile, fullLength);
 		        double a=test.test(learn.sp, learn.totalSample, testCaseNumber);
-		        System.out.print(a+",");
+		        System.out.printf("%.2f ", a);
 	    	}
     	}
     	
@@ -97,8 +157,10 @@ public class DNABarcode {
     	    	for(int j=0;j<100;j++) {
     	    		//trainFile="E:\\DNA Barcode Project\\New Approach\\Dataset CSV (Simulated)\\N50000\\GNe50000r"+j+"_train_SingleLined.csv";
     	        	//testFile="E:\\DNA Barcode Project\\New Approach\\Dataset CSV (Simulated)\\N50000\\GNe50000r"+j+"_test_SingleLined.csv";
-    	    		trainFile=trainFile+j+"_train_SingleLined.csv";
-    	    		testFile=testFile+j+"_test_SingleLined.csv";
+    	    		trainFile=new String();
+    	    		testFile=new String();
+    	    		trainFile=args[1]+j+"_train_SingleLined.csv";
+    	    		testFile=args[1]+j+"_test_SingleLined.csv";
     	        	
     		    	//int barcodeLength=70;
     	        	int barcodeLength=l[i];
@@ -109,10 +171,11 @@ public class DNABarcode {
     		        testSpecies test=new testSpecies(testFile, barcodeLength, sameFile, fullLength);
     		        totalAccuracy+=test.test(learn.sp, learn.totalSample, testCaseNumber);
     	    	}
-    	    	File f=new File("E:\\DNA Barcode Project\\New Approach\\Accuracy_DifferentLengths_Simulated.txt");
-    	        FileWriter fileWriter=new FileWriter(f,true);
-    	        fileWriter.append(totalAccuracy/100.0+",");
-    	        fileWriter.close();
+    	    	System.out.printf("%.2f ", (totalAccuracy/100.0));
+    	    	//File f=new File("E:\\DNA Barcode Project\\New Approach\\Accuracy_DifferentLengths_Simulated.txt");
+    	        //FileWriter fileWriter=new FileWriter(f,true);
+    	        //fileWriter.append(totalAccuracy/100.0+",");
+    	        //fileWriter.close();
         	}
     	}
     	else if(experimentType==3) {
@@ -195,7 +258,7 @@ public class DNABarcode {
 		        
 		        testSpecies test=new testSpecies(testFile, barcodeLength, sameFile, fullLength);
 		        double a=test.test(learn.sp, learn.totalSample, bestTests);
-		        System.out.print(a+",");
+		        System.out.printf("%.2f ", a);
 	    	}
     	}
     	else if(experimentType==4) {
@@ -238,12 +301,33 @@ public class DNABarcode {
 		        testSpecies test=new testSpecies(testFile, barcodeLength, sameFile, fullLength);
 		        double a=test.test(learn.sp, learn.totalSample, testCaseNumber);
 	    		
-	    		System.out.print(a+",");
+	    		System.out.printf("%.2f ", a);
     		}
     		
 	        
     	}
     	
+    }
+    
+    //Returns the lengths of various percentages
+    public static int[] getLengths(String file) throws FileNotFoundException {
+    	double[] percentages= {0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0};
+    	int[] lengths=new int[percentages.length];
+    	String line;
+    	int sequenceLength;
+    	
+    	Scanner scRead=new Scanner(new File(file));
+    	line=scRead.next();
+    	
+    	String[] arrOfAttr=line.split(",");
+    	sequenceLength=arrOfAttr.length-1;
+    	
+    	for(int i=0;i<percentages.length;i++) {
+    		lengths[i]=(int)(sequenceLength*percentages[i]);
+    	}
+    	
+    	scRead.close();
+    	return lengths;
     }
     
 }
